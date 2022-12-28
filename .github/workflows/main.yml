@@ -23,6 +23,15 @@ jobs:
       - name: zip Lambda Function
         run: |
           zip -r9 lambda.zip hello-world.py
-      - name: AWS Deploy
-        run: |
-          aws lambda update-function-code --function-name arn:aws:lambda:ap-south-1:051723651593:function:paccar --zip-file fileb://lambda.zip
+      - name: Upload to S3
+        run: aws s3 cp lambda.zip s3://testing-lambda-123231231231/lambda.zip
+      - name: Update lambda function code
+        run: aws lambda update-function-code --function-name arn:aws:lambda:ap-south-1:051723651593:function:paccar --s3-bucket testing-lambda-123231231231 --s3-key lambda.zip
+      - name: Sleep for 5 seconds
+        run: sleep 5s
+        shell: bash
+      - name: Release lambda function version
+        run: aws lambda publish-version --function-name arn:aws:lambda:ap-south-1:051723651593:function:paccar --description Lambda-test
+      #- name: AWS Deploy
+      #  run: |
+      #    aws lambda update-function-code --function-name arn:aws:lambda:ap-south-1:051723651593:function:paccar --zip-file fileb://lambda.zip

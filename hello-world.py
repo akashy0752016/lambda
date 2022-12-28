@@ -1,1 +1,3 @@
-print ("Testing 123456789")
+def lambda_handler(event, context):
+    print(event)
+    return 'Hello from Lambda!'

@@ -1,21 +1,28 @@
+name: Deploy Lambda Function
 on:
   push:
-    branches:
-      - main
+    branches: main
+  pull_request:
+    branches: main
+  workflow_dispatch:
 
 jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
+  release:
+    name: Deploy lambda function
+    runs-on: [ ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: aws-actions/setup-sam@v1
+      - name: Configure AWS Credentials
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Print the input name STDOUT
-        run: echo The username is Akash Yadav
-      - run: sam build --use-container
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --s3-bucket testing-lambda-123231231231 --capabilities CAPABILITY_IAM --region ap-south-1
+          aws-region: ap-south-1
+          role-duration-seconds: 1200
+          role-session-name: MySessionName
+      - name: zip Lambda Function
+        run: |
+          zip -r9 lambda.zip hello-world.py
+      - name: AWS Deploy
+        run: |
+          aws lambda update-function-code --function-name arn:aws:lambda:ap-south-1:051723651593:function:paccar --zip-file fileb://lambda.zip

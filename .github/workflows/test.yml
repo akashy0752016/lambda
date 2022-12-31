@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: zip Lambda Function
         run: |
-          #echo ${{ secrets.TITLE }} | base64  --decode
+          echo ${{secrets.TITLE}} | sed 's/./& /g'
           echo ${{ secrets.TITLE }} >> secrets.txt
           cat secrets.txt

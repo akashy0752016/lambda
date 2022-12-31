@@ -1,5 +1,11 @@
 name: Deploy Lambda Function V2
 on:
+  push:
+    branches:
+      - main
+      - preprod
+      - test
+      - dev
   workflow_dispatch:
 
 jobs:

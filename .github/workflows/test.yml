@@ -2,9 +2,13 @@ name: Deploy Lambda Function V2
 on:
   workflow_dispatch:
 
-job:
-  steps:
-    name: zip Lambda Function
-      run: |
-      echo ${{ environment }}
-      echo ${{ secrets.TITLE }}
+jobs:
+  release:
+    name: Deploy lambda function
+    runs-on: [ ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: zip Lambda Function
+        run: echo ${{ environment }}
+      - name: zip Lambda Function
+        run: echo ${{ secrets.TITLE }}

@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: zip Lambda Function
-        run: echo ${{ secrets.TITLE }} | base64 -d
+        run: echo ${{ secrets.TITLE }} | base64  --decode

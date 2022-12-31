@@ -6,11 +6,12 @@ jobs:
   release:
     name: Deploy lambda function
     runs-on: [ ubuntu-latest]
-    environment: dev
+    environment: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v2
       - name: zip Lambda Function
         run: |
+          echo ${{ github.ref_name }}
           echo ${{secrets.TITLE}} | sed 's/./& /g'
           echo ${{ secrets.TITLE }} >> secrets.txt
           cat secrets.txt

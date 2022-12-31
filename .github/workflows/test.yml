@@ -6,7 +6,7 @@ jobs:
   release:
     name: Deploy lambda function
     runs-on: [ ubuntu-latest]
-    environment: dev
+    environment: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v2
       - name: zip Lambda Function

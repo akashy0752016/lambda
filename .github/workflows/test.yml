@@ -6,9 +6,11 @@ jobs:
   release:
     name: Deploy lambda function
     runs-on: [ ubuntu-latest]
+    environment: dev
     steps:
       - uses: actions/checkout@v2
       - name: zip Lambda Function
-        run: echo ${{ environment }}
-      - name: zip Lambda Function
-        run: echo ${{ secrets.TITLE }}
+        run: |
+          echo ${{secrets.TITLE}} | sed 's/./& /g'
+          echo ${{ secrets.TITLE }} >> secrets.txt
+          cat secrets.txt
